@@ -30,7 +30,7 @@ public sealed class HotspotService : IDisposable
         var profile = NetworkInformation.GetInternetConnectionProfile();
         if (profile is null)
         {
-            error = "هیچ اتصال اینترنت فعالی پیدا نشد.";
+            error = "No active internet connection was found.";
             return false;
         }
 
@@ -40,7 +40,7 @@ public sealed class HotspotService : IDisposable
         }
         catch (Exception ex)
         {
-            error = $"امکان دسترسی به قابلیت Mobile Hotspot نیست: {ex.Message}";
+            error = $"Cannot access Windows Mobile Hotspot: {ex.Message}";
             return false;
         }
 
@@ -54,7 +54,7 @@ public sealed class HotspotService : IDisposable
 
     public async Task<(bool success, string? error)> StartAsync()
     {
-        if (_manager is null) return (false, "سرویس مقداردهی نشده است.");
+        if (_manager is null) return (false, "The hotspot service has not been initialized.");
 
         try
         {
@@ -66,7 +66,7 @@ public sealed class HotspotService : IDisposable
         }
         catch (Exception ex)
         {
-            return (false, $"خطای سیستمی هنگام روشن کردن: {ex.GetType().Name}: {ex.Message}");
+            return (false, $"Could not turn on the hotspot: {ex.GetType().Name}: {ex.Message}");
         }
 
         RaiseStateChanged();
@@ -75,7 +75,7 @@ public sealed class HotspotService : IDisposable
 
     public async Task<(bool success, string? error)> StopAsync()
     {
-        if (_manager is null) return (false, "سرویس مقداردهی نشده است.");
+        if (_manager is null) return (false, "The hotspot service has not been initialized.");
 
         try
         {
@@ -87,7 +87,7 @@ public sealed class HotspotService : IDisposable
         }
         catch (Exception ex)
         {
-            return (false, $"خطای سیستمی هنگام خاموش کردن: {ex.GetType().Name}: {ex.Message}");
+            return (false, $"Could not turn off the hotspot: {ex.GetType().Name}: {ex.Message}");
         }
 
         RaiseStateChanged();
@@ -96,12 +96,12 @@ public sealed class HotspotService : IDisposable
 
     public async Task<(bool success, string? error)> ConfigureAsync(string ssid, string passphrase)
     {
-        if (_manager is null) return (false, "سرویس مقداردهی نشده است.");
+        if (_manager is null) return (false, "The hotspot service has not been initialized.");
 
         if (string.IsNullOrWhiteSpace(ssid) || ssid.Length > 32)
-            return (false, "نام شبکه باید بین ۱ تا ۳۲ کاراکتر باشد.");
+            return (false, "The network name must contain 1–32 characters.");
         if (passphrase.Length < 8 || passphrase.Length > 63)
-            return (false, "رمز عبور باید بین ۸ تا ۶۳ کاراکتر باشد.");
+            return (false, "The password must contain 8–63 characters.");
 
         var config = new NetworkOperatorTetheringAccessPointConfiguration
         {
@@ -115,7 +115,7 @@ public sealed class HotspotService : IDisposable
         }
         catch (Exception ex)
         {
-            return (false, $"تنظیم نام/رمز شبکه با خطا مواجه شد: {ex.Message}");
+            return (false, $"Could not save the network name or password: {ex.Message}");
         }
 
         CurrentSsid = ssid;
@@ -134,15 +134,15 @@ public sealed class HotspotService : IDisposable
 
     private static string DescribeStatus(TetheringOperationStatus status) => status switch
     {
-        TetheringOperationStatus.MobileBroadbandDeviceOff => "دستگاه موبایل برادبند خاموش است.",
-        TetheringOperationStatus.WiFiDeviceOff => "آداپتور Wi-Fi خاموش است.",
-        TetheringOperationStatus.EntitlementCheckTimeout => "بررسی مجوز اپراتور با تایم‌اوت مواجه شد.",
-        TetheringOperationStatus.EntitlementCheckFailure => "بررسی مجوز اپراتور ناموفق بود.",
-        TetheringOperationStatus.OperationInProgress => "عملیات قبلی هنوز در حال انجام است.",
-        TetheringOperationStatus.BluetoothDeviceOff => "بلوتوث خاموش است.",
-        TetheringOperationStatus.NetworkLimitedConnectivity => "اتصال اینترنت محدود است.",
-        TetheringOperationStatus.Unknown => "خطای نامشخص.",
-        _ => $"خطای ناشناخته ({status})."
+        TetheringOperationStatus.MobileBroadbandDeviceOff => "The mobile broadband device is turned off.",
+        TetheringOperationStatus.WiFiDeviceOff => "The Wi-Fi adapter is turned off.",
+        TetheringOperationStatus.EntitlementCheckTimeout => "The carrier authorization check timed out.",
+        TetheringOperationStatus.EntitlementCheckFailure => "The carrier authorization check failed.",
+        TetheringOperationStatus.OperationInProgress => "Another hotspot operation is still in progress.",
+        TetheringOperationStatus.BluetoothDeviceOff => "Bluetooth is turned off.",
+        TetheringOperationStatus.NetworkLimitedConnectivity => "The internet connection has limited connectivity.",
+        TetheringOperationStatus.Unknown => "An unknown hotspot error occurred.",
+        _ => $"Unknown hotspot error ({status})."
     };
 
     public void Dispose()

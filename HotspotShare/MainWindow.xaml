@@ -2,10 +2,11 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="HOTFI"
-        Icon="Assets/app.ico"
+        Icon="/HOTFI;component/Assets/app.ico"
         Height="680" Width="440"
-        FlowDirection="RightToLeft"
-        FontFamily="pack://application:,,,/Assets/#Vazirmatn"
+        FlowDirection="LeftToRight"
+        Language="en-US"
+        FontFamily="Segoe UI"
         FontSize="14"
         Background="#0B0620"
         ResizeMode="CanMinimize"
@@ -211,29 +212,29 @@
 
                     <Border Grid.Row="1" Style="{StaticResource AuraCard}">
                         <StackPanel>
-                            <TextBlock x:Name="StatusText" Text="وضعیت: خاموش" FontSize="18" FontWeight="Bold"
+                            <TextBlock x:Name="StatusText" Text="Status: Off" FontSize="18" FontWeight="Bold"
                                        Foreground="{StaticResource TextPrimary}" HorizontalAlignment="Center"/>
-                            <TextBlock x:Name="ClientCountText" Text="۰ دستگاه متصل" Foreground="{StaticResource TextSecondary}"
+                            <TextBlock x:Name="ClientCountText" Text="0 devices connected" Foreground="{StaticResource TextSecondary}"
                                        HorizontalAlignment="Center" Margin="0,4,0,14"/>
-                            <Button x:Name="ToggleButton" Content="روشن کردن هات‌اسپات" Style="{StaticResource AuraButton}" Click="ToggleButton_Click"/>
+                            <Button x:Name="ToggleButton" Content="Turn on hotspot" Style="{StaticResource AuraButton}" Click="ToggleButton_Click"/>
                         </StackPanel>
                     </Border>
 
                     <Border Grid.Row="2" Style="{StaticResource AuraCard}">
                         <StackPanel>
-                            <TextBlock Text="ترافیک اینترنت" FontWeight="Bold" Foreground="{StaticResource TextPrimary}" Margin="0,0,0,12"/>
+                            <TextBlock Text="Internet traffic" FontWeight="Bold" Foreground="{StaticResource TextPrimary}" Margin="0,0,0,12"/>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0" HorizontalAlignment="Center">
-                                    <TextBlock Text="⬇ سرعت دانلود" HorizontalAlignment="Center" Foreground="{StaticResource TextSecondary}" FontSize="12"/>
-                                    <TextBlock x:Name="DownloadSpeedText" Text="۰ KB/s" FontWeight="Bold" FontSize="18" Foreground="{StaticResource Cyan}" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="↓ Download speed" HorizontalAlignment="Center" Foreground="{StaticResource TextSecondary}" FontSize="12"/>
+                                    <TextBlock x:Name="DownloadSpeedText" Text="0 KB/s" FontWeight="Bold" FontSize="18" Foreground="{StaticResource Cyan}" HorizontalAlignment="Center"/>
                                 </StackPanel>
                                 <StackPanel Grid.Column="1" HorizontalAlignment="Center">
-                                    <TextBlock Text="⬆ سرعت آپلود" HorizontalAlignment="Center" Foreground="{StaticResource TextSecondary}" FontSize="12"/>
-                                    <TextBlock x:Name="UploadSpeedText" Text="۰ KB/s" FontWeight="Bold" FontSize="18" Foreground="{StaticResource Magenta}" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="↑ Upload speed" HorizontalAlignment="Center" Foreground="{StaticResource TextSecondary}" FontSize="12"/>
+                                    <TextBlock x:Name="UploadSpeedText" Text="0 KB/s" FontWeight="Bold" FontSize="18" Foreground="{StaticResource Magenta}" HorizontalAlignment="Center"/>
                                 </StackPanel>
                             </Grid>
                             <Rectangle Height="1" Fill="#3D2E66" Margin="0,14,0,14"/>
@@ -243,12 +244,12 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0" HorizontalAlignment="Center">
-                                    <TextBlock Text="مجموع دانلود" HorizontalAlignment="Center" Foreground="{StaticResource TextSecondary}" FontSize="12"/>
-                                    <TextBlock x:Name="TotalDownloadText" Text="۰ MB" FontWeight="Bold" FontSize="16" Foreground="{StaticResource TextPrimary}" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="Total download" HorizontalAlignment="Center" Foreground="{StaticResource TextSecondary}" FontSize="12"/>
+                                    <TextBlock x:Name="TotalDownloadText" Text="0 MB" FontWeight="Bold" FontSize="16" Foreground="{StaticResource TextPrimary}" HorizontalAlignment="Center"/>
                                 </StackPanel>
                                 <StackPanel Grid.Column="1" HorizontalAlignment="Center">
-                                    <TextBlock Text="مجموع آپلود" HorizontalAlignment="Center" Foreground="{StaticResource TextSecondary}" FontSize="12"/>
-                                    <TextBlock x:Name="TotalUploadText" Text="۰ MB" FontWeight="Bold" FontSize="16" Foreground="{StaticResource TextPrimary}" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="Total upload" HorizontalAlignment="Center" Foreground="{StaticResource TextSecondary}" FontSize="12"/>
+                                    <TextBlock x:Name="TotalUploadText" Text="0 MB" FontWeight="Bold" FontSize="16" Foreground="{StaticResource TextPrimary}" HorizontalAlignment="Center"/>
                                 </StackPanel>
                             </Grid>
                         </StackPanel>
@@ -262,7 +263,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="0" x:Name="DevicesHeaderText" Text="دستگاه‌های متصل" FontSize="18" FontWeight="Bold"
+                    <TextBlock Grid.Row="0" x:Name="DevicesHeaderText" Text="Connected devices" FontSize="18" FontWeight="Bold"
                                Foreground="{StaticResource TextPrimary}" Margin="2,8,0,12"/>
 
                     <Border Grid.Row="1" Style="{StaticResource AuraCard}" Padding="10">
@@ -288,14 +289,14 @@
                                                     <Run Text="MAC: "/><Run Text="{Binding MacAddress}"/>
                                                 </TextBlock>
                                                 <TextBlock Margin="0,2,0,0" Foreground="{StaticResource TextSecondary}" FontSize="11">
-                                                    <Run Text="متصل از: "/><Run Text="{Binding ConnectedSince, StringFormat='HH:mm:ss'}"/>
+                                                    <Run Text="Connected since: "/><Run Text="{Binding ConnectedSince, StringFormat='HH:mm:ss'}"/>
                                                 </TextBlock>
                                             </StackPanel>
                                         </Border>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-                            <TextBlock x:Name="NoDevicesText" Text="هیچ دستگاهی متصل نیست" Foreground="{StaticResource TextSecondary}"
+                            <TextBlock x:Name="NoDevicesText" Text="No devices connected" Foreground="{StaticResource TextSecondary}"
                                        HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,40,0,0"/>
                         </Grid>
                     </Border>
@@ -308,16 +309,16 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="0" Text="تنظیمات شبکه" FontSize="18" FontWeight="Bold"
+                    <TextBlock Grid.Row="0" Text="Network settings" FontSize="18" FontWeight="Bold"
                                Foreground="{StaticResource TextPrimary}" Margin="2,8,0,12"/>
 
                     <Border Grid.Row="1" Style="{StaticResource AuraCard}">
                         <StackPanel>
-                            <TextBlock Text="نام شبکه (SSID)" Foreground="{StaticResource TextSecondary}" FontSize="12" Margin="2,0,0,4"/>
+                            <TextBlock Text="Network name (SSID)" Foreground="{StaticResource TextSecondary}" FontSize="12" Margin="2,0,0,4"/>
                             <TextBox x:Name="SsidBox" Style="{StaticResource AuraTextBox}" Margin="0,0,0,14"/>
-                            <TextBlock Text="رمز عبور (حداقل ۸ کاراکتر)" Foreground="{StaticResource TextSecondary}" FontSize="12" Margin="2,0,0,4"/>
+                            <TextBlock Text="Password (8–63 characters)" Foreground="{StaticResource TextSecondary}" FontSize="12" Margin="2,0,0,4"/>
                             <TextBox x:Name="PasswordBox" Style="{StaticResource AuraTextBox}" Margin="0,0,0,16"/>
-                            <Button x:Name="SaveConfigButton" Content="ذخیره تنظیمات" Style="{StaticResource AuraButtonOutline}" Click="SaveConfigButton_Click"/>
+                            <Button x:Name="SaveConfigButton" Content="Save settings" Style="{StaticResource AuraButtonOutline}" Click="SaveConfigButton_Click"/>
                             <TextBlock x:Name="ConfigMessage" Foreground="#FF7AB8" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="12" HorizontalAlignment="Center"/>
                         </StackPanel>
                     </Border>
@@ -330,7 +331,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="0" Text="اتصال با اسکن QR" FontSize="18" FontWeight="Bold"
+                    <TextBlock Grid.Row="0" Text="Connect with QR" FontSize="18" FontWeight="Bold"
                                Foreground="{StaticResource TextPrimary}" Margin="2,8,0,12"/>
 
                     <Border Grid.Row="1" Style="{StaticResource AuraCard}" HorizontalAlignment="Center">
@@ -338,9 +339,9 @@
                             <Border Background="White" CornerRadius="14" Padding="14" HorizontalAlignment="Center">
                                 <Image x:Name="QrImage" Width="220" Height="220"/>
                             </Border>
-                            <TextBlock x:Name="QrSsidText" Text="Sajad" FontWeight="Bold" FontSize="16"
+                            <TextBlock x:Name="QrSsidText" Text="" FontWeight="Bold" FontSize="16"
                                        Foreground="{StaticResource TextPrimary}" HorizontalAlignment="Center" Margin="0,16,0,4"/>
-                            <TextBlock Text="دوربین گوشی را روی این کد بگیرید تا خودکار به این هات‌اسپات وصل شوید"
+                            <TextBlock Text="Scan this code with your phone's camera to connect to the hotspot."
                                        Foreground="{StaticResource TextSecondary}" FontSize="12" TextWrapping="Wrap"
                                        TextAlignment="Center" Width="240" HorizontalAlignment="Center" Margin="0,0,0,0"/>
                         </StackPanel>
@@ -352,9 +353,9 @@
             <!-- Bottom nav -->
             <Border Grid.Row="1" Background="#160E30" BorderBrush="#3D2E66" BorderThickness="0,1,0,0">
                 <UniformGrid Columns="4" Height="64">
-                    <RadioButton x:Name="NavHome" Style="{StaticResource NavTabButton}" Tag="🏠" Content="خانه" IsChecked="True" Checked="Nav_Checked"/>
-                    <RadioButton x:Name="NavDevices" Style="{StaticResource NavTabButton}" Tag="📶" Content="دستگاه‌ها" Checked="Nav_Checked"/>
-                    <RadioButton x:Name="NavSettings" Style="{StaticResource NavTabButton}" Tag="⚙️" Content="تنظیمات" Checked="Nav_Checked"/>
+                    <RadioButton x:Name="NavHome" Style="{StaticResource NavTabButton}" Tag="🏠" Content="Home" IsChecked="True" Checked="Nav_Checked"/>
+                    <RadioButton x:Name="NavDevices" Style="{StaticResource NavTabButton}" Tag="📶" Content="Devices" Checked="Nav_Checked"/>
+                    <RadioButton x:Name="NavSettings" Style="{StaticResource NavTabButton}" Tag="⚙️" Content="Settings" Checked="Nav_Checked"/>
                     <RadioButton x:Name="NavQr" Style="{StaticResource NavTabButton}" Tag="🔗" Content="QR" Checked="Nav_Checked"/>
                 </UniformGrid>
             </Border>

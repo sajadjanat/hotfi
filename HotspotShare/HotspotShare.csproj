@@ -10,6 +10,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <RootNamespace>HotspotShare</RootNamespace>
     <AssemblyName>HOTFI</AssemblyName>
+    <Version>1.1.0</Version>
     <ApplicationIcon>Assets\app.ico</ApplicationIcon>
   </PropertyGroup>
 
@@ -18,8 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Assets\Vazirmatn-Regular.ttf"/>
-    <Resource Include="Assets\Vazirmatn-Bold.ttf"/>
     <Resource Include="Assets\app.ico"/>
   </ItemGroup>
 

@@ -80,7 +80,7 @@ public sealed class NetworkMonitorService : IDisposable
                 seenMacs.Add(mac);
                 if (!_firstSeen.ContainsKey(mac)) _firstSeen[mac] = DateTime.Now;
 
-                string hostName = _hostnameCache.GetValueOrDefault(ip, "در حال شناسایی...");
+                string hostName = _hostnameCache.GetValueOrDefault(ip, "Identifying device…");
                 TriggerHostnameResolve(ip);
 
                 devices.Add(new ConnectedDevice(ip, mac, hostName, _firstSeen[mac]));
@@ -154,7 +154,7 @@ public sealed class NetworkMonitorService : IDisposable
             // ignore
         }
 
-        return "دستگاه ناشناس";
+        return "Unknown device";
     }
 
     /// <summary>

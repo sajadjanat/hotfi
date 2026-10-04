@@ -16,6 +16,7 @@ public partial class MainWindow : Window
     private readonly NetworkMonitorService _monitor = new();
     private readonly DispatcherTimer _refreshTimer;
     private readonly Random _random = new();
+    private bool _wasHotspotOn;
 
     public MainWindow()
     {
@@ -66,7 +67,7 @@ public partial class MainWindow : Window
 
         if (!_hotspot.Initialize(out var error))
         {
-            MessageBox.Show(error, "خطا", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             ToggleButton.IsEnabled = false;
             SaveConfigButton.IsEnabled = false;
             return;
@@ -87,7 +88,7 @@ public partial class MainWindow : Window
     {
         Dispatcher.Invoke(() =>
         {
-            bool wasOn = StatusText.Text == "وضعیت: روشن";
+            bool wasOn = _wasHotspotOn;
             UpdateStatusUi(args.IsOn, args.ClientCount);
             if (args.IsOn && !wasOn) _monitor.ResetSessionBaseline();
         });
@@ -104,7 +105,7 @@ public partial class MainWindow : Window
 
             if (!success)
             {
-                MessageBox.Show(error, "خطا", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(error, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
         finally
@@ -123,7 +124,7 @@ public partial class MainWindow : Window
             ConfigMessage.Foreground = success
                 ? new SolidColorBrush(Color.FromRgb(0x22, 0xD3, 0xEE))
                 : new SolidColorBrush(Color.FromRgb(0xFF, 0x7A, 0xB8));
-            ConfigMessage.Text = success ? "تنظیمات ذخیره شد." : error;
+            ConfigMessage.Text = success ? "Settings saved." : error;
             if (success) RefreshQrCode();
         }
         finally
@@ -163,7 +164,7 @@ public partial class MainWindow : Window
         var devices = _monitor.GetConnectedDevices();
         DevicesList.ItemsSource = devices;
         NoDevicesText.Visibility = devices.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-        DevicesHeaderText.Text = $"دستگاه‌های متصل ({devices.Count})";
+        DevicesHeaderText.Text = $"Connected devices ({devices.Count})";
 
         var (down, up) = _monitor.GetCurrentTraffic();
         DownloadSpeedText.Text = $"{down:0.0} KB/s";
@@ -176,9 +177,10 @@ public partial class MainWindow : Window
 
     private void UpdateStatusUi(bool isOn, int clientCount)
     {
-        StatusText.Text = isOn ? "وضعیت: روشن" : "وضعیت: خاموش";
-        ToggleButton.Content = isOn ? "خاموش کردن هات‌اسپات" : "روشن کردن هات‌اسپات";
-        ClientCountText.Text = $"{clientCount} دستگاه متصل";
+        _wasHotspotOn = isOn;
+        StatusText.Text = isOn ? "Status: On" : "Status: Off";
+        ToggleButton.Content = isOn ? "Turn off hotspot" : "Turn on hotspot";
+        ClientCountText.Text = clientCount == 1 ? "1 device connected" : $"{clientCount} devices connected";
     }
 
     private void Nav_Checked(object sender, RoutedEventArgs e)
